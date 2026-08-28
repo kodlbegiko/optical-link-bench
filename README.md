@@ -8,6 +8,12 @@ Optical Link started as a browser benchmark for animated QR transfer. The projec
 
 The project intentionally keeps the existing QR benchmark as the baseline. We will not claim a new codec is better until it wins under the same device, distance, lighting, duration, integrity and repeatability conditions.
 
+## Live
+
+- **Project / research site:** https://optical-link.vercel.app/
+- **V0.20.8 benchmark TX:** https://optical-link-bench.vercel.app/v0208.html#tx
+- **V0.20.8 benchmark RX:** https://optical-link-bench.vercel.app/v0208.html#rx
+
 ## Current evidence
 
 | Metric | Current evidence |
