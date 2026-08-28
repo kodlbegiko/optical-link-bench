@@ -1,26 +1,41 @@
-# Current Production Benchmark
+# Current Production Site
 
-Current deployed generation: **V0.20.8**.
+Production project: **Optical Link**.
 
-## Endpoints
+## Intended endpoints
 
-- Base/versioned page: `https://optical-link-bench.vercel.app/v0208.html`
-- TX: `https://optical-link-bench.vercel.app/v0208.html#tx`
-- RX: `https://optical-link-bench.vercel.app/v0208.html#rx`
-- Versioned production asset: `/app-v0208.js`
+- Project / research home: `https://optical-link-bench.vercel.app/`
+- Current benchmark TX: `https://optical-link-bench.vercel.app/bench.html#tx`
+- Current benchmark RX: `https://optical-link-bench.vercel.app/bench.html#rx`
+- Compatibility alias: `https://optical-link-bench.vercel.app/v0208.html`
 
-## Production hardening incorporated by V0.20.8
+## Current benchmark generation
 
-- versioned HTML and JavaScript asset paths
-- no runtime jsDelivr/unpkg dependency for QR encoder/decoder
-- qrcode + jsQR bundled into same-origin runtime asset
-- decoder readiness no longer depends on `window.QRCode/window.jsQR`
-- compact `100dvh` layout to keep TX controls and QR visible in one viewport
-- packet parser accepts the actual eight-field Data packet structure
-- V0.20 decoder-sampling sequence preserved
+The preserved benchmark generation is **V0.20.8**.
 
-## Source provenance
+It retains:
 
-`src/app.js` is the clean, readable V0.20.8 source representation maintained in this repository. The Vercel production JavaScript is bundled/minified and therefore is not expected to be byte-identical to `src/app.js`.
+- fixed `1000 B × 8 QR/s` transmitter;
+- 12 / 18 / 24 Hz decoder-sampling modes;
+- camera-driven 90 s mode;
+- camera-driven 300 s endurance;
+- bundled same-origin `qrcode` + `jsQR` dependencies;
+- compact TX/RX UI.
 
-The next evidence-producing step is a clean full V0.20.8 physical run; until then, the latest completed long-duration quantitative result remains V0.19.
+`src/app.js` remains the readable benchmark source.
+
+## New project site
+
+The root route is now intended to explain the broader Optical Link program:
+
+- why QR remains the bootstrap/baseline;
+- proposed Optical HS binary-grid architecture;
+- useful-goodput success criteria;
+- staged roadmap;
+- explicit risks and non-claims.
+
+The website does **not** present Optical HS targets as achieved results.
+
+## Next evidence-producing step
+
+Before implementing the first custom codec, complete Measurement Integrity work and a clean counterbalanced decoder-sampling experiment. The latest completed long-duration quantitative evidence remains V0.19 until a newer run is completed and recorded.

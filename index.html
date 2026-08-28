@@ -1,13 +1,176 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-<meta name="theme-color" content="#f5f7fb"/>
-<title>Optical Link Bench V0.20.8</title>
-<style>
-*{box-sizing:border-box}html,body,#app{margin:0;width:100%;height:100dvh;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;color:#182235;background:#f5f7fb}button{font:inherit}.page{height:100dvh;padding:6px;display:flex;flex-direction:column;gap:6px;overflow:hidden}.top{flex:0 0 38px;display:flex;align-items:center;justify-content:space-between;gap:8px}.top b{font-size:15px}.muted{color:#6e798b;font-size:10px}.grid{flex:1;min-height:0;display:grid;grid-template-columns:minmax(260px,300px) minmax(0,1fr);gap:6px;overflow:hidden}.grid.rx{grid-template-columns:minmax(0,1fr) minmax(330px,390px)}.card{background:#fff;border:1px solid #dbe2ec;border-radius:13px;overflow:hidden;min-width:0;min-height:0}.side{padding:7px;display:flex;flex-direction:column;gap:5px;min-height:0;overflow:hidden}.hero{padding:6px 8px;border:1px solid #ccdcf8;border-radius:9px;background:#f3f7ff}.hero small{display:block;color:#68758a;font-size:8px}.hero b{font-size:18px;line-height:1.05}.btn{flex:0 0 34px;height:34px;border:1px solid #dbe2ec;border-radius:9px;background:#fff;font-weight:760;cursor:pointer;font-size:12px}.blue{background:#176cff;color:#fff;border-color:#176cff}.red{color:#b4233b;background:#fff1f2}.bar{flex:0 0 9px;height:9px;border-radius:99px;background:#e8edf4;overflow:hidden}.bar i{display:block;height:100%;width:0;background:#176cff}.stats{display:grid;grid-template-columns:1fr 1fr;gap:4px}.stat{padding:5px 6px;border:1px solid #e2e7ef;border-radius:8px;min-width:0}.stat small{display:block;color:#6d788b;font-size:7px;text-transform:uppercase}.stat b{display:block;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.stage{display:grid;place-items:center;position:relative;padding:8px;background:#fff;min-height:0;overflow:hidden}.stage canvas{display:block;image-rendering:pixelated;width:auto!important;height:auto!important;max-width:calc(100% - 4px)!important;max-height:calc(100% - 4px)!important;aspect-ratio:1/1;object-fit:contain}.badge{position:absolute;top:7px;left:7px;background:#111d;color:#fff;padding:4px 6px;border-radius:7px;font:9px ui-monospace,monospace;z-index:2}.cam{background:#101215;padding:5px;display:flex;flex-direction:column;gap:4px;min-height:0;overflow:hidden}.view{flex:1;min-height:0;position:relative;background:#000;border-radius:9px;overflow:hidden}.view video{display:block;width:100%;height:100%;object-fit:contain}.roi{position:absolute;border:2px solid #38e48d;border-radius:7px;display:none;pointer-events:none}.cam .muted{color:#c4ccd7}.locked{color:#65f0a6!important;font-weight:800}.note{padding:5px 6px;border:1px solid #e1e7ef;border-radius:8px;background:#fafcff;font-size:9px;line-height:1.25;max-height:54px;overflow:auto}.modegrid{display:grid;grid-template-columns:repeat(2,1fr);gap:4px}.modepill{padding:4px 5px;border:1px solid #dfe6ef;border-radius:7px;font-size:8px;background:#fff}.modepill.on{border-color:#176cff;background:#eef4ff;color:#1456cf;font-weight:800}.liberr{position:fixed;inset:0;background:#f5f7fb;z-index:99;display:grid;place-items:center;padding:24px}.liberr>div{max-width:680px;background:white;border:1px solid #dbe2ec;border-radius:16px;padding:20px}.report{position:fixed;inset:0;width:100vw;height:100dvh;background:#f5f7fb;padding:6px;z-index:9;display:none;flex-direction:column;gap:5px;overflow:hidden}.report.on{display:flex}.lead{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.lead>div{background:#fff;border:1px solid #dbe2ec;border-radius:10px;padding:6px}.lead small{display:block;color:#6d788b;font-size:8px}.lead b{font-size:16px}.tbl{flex:1;min-height:0;overflow:auto;background:#fff;border:1px solid #dbe2ec;border-radius:10px}table{width:100%;border-collapse:collapse;font-size:10px}th,td{padding:5px;border-bottom:1px solid #e8edf4;text-align:right;white-space:nowrap}th:first-child,td:first-child{text-align:left}.ok{color:#08783e;font-weight:800}.warn{color:#a15c00;font-weight:800}@media(max-width:760px){.page{padding:4px;gap:4px}.top{flex-basis:32px}.top b{font-size:12px}.grid{grid-template-columns:1fr;gap:4px}.grid:not(.rx){grid-template-rows:minmax(225px,40%) minmax(0,1fr)}.grid.rx{grid-template-columns:1fr;grid-template-rows:minmax(185px,38%) minmax(0,1fr)}.side{padding:5px;gap:4px}.stats{grid-template-columns:repeat(4,1fr);gap:3px}.stat{padding:4px 3px}.stat small{font-size:6px}.stat b{font-size:9px}.btn{flex-basis:30px;height:30px;font-size:10px}.modegrid{grid-template-columns:repeat(3,1fr);gap:3px}.modepill{font-size:7px;padding:3px}.note{font-size:7.5px;max-height:38px}.cam{padding:4px}.cam>.muted{font-size:8px}.stage{padding:4px}.lead{grid-template-columns:repeat(2,1fr)}}@media(max-height:700px) and (min-width:761px){.page{padding:4px;gap:4px}.top{flex-basis:32px}.grid{grid-template-columns:minmax(240px,280px) minmax(0,1fr)}.grid.rx{grid-template-columns:minmax(0,1fr) minmax(310px,360px)}.side{padding:5px;gap:3px}.hero b{font-size:15px}.btn{flex-basis:30px;height:30px}.note{max-height:42px;font-size:8px}.stage{padding:5px}}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#07111f" />
+  <meta name="description" content="Optical Link — zero-network, zero-pairing screen-to-camera data transfer research." />
+  <title>Optical Link — Data through light</title>
+  <link rel="stylesheet" href="/site.css" />
 </head>
-<body><div id="app"></div><script type="module" src="/src/app.js"></script></body>
+<body>
+  <header class="nav shell">
+    <a class="brand" href="/" aria-label="Optical Link home">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span>Optical Link</span>
+    </a>
+    <nav>
+      <a href="#architecture">架構</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#evidence">Evidence</a>
+      <a class="nav-cta" href="/bench.html#tx">Launch Bench</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero shell">
+      <div class="hero-copy">
+        <h1>兩台裝置之間，<br><span>只剩下光。</span></h1>
+        <p>Optical Link 正在建立一條不需要網路、不需要配對的 screen-to-camera 資料鏈路：QR 負責通用入口，高速 Optical HS 負責真正的大檔案傳輸。</p>
+        <div class="actions">
+          <a class="button primary" href="/bench.html#tx">啟動 V0.20.8 Benchmark</a>
+          <a class="button secondary" href="https://github.com/kodlbegiko/optical-link-bench">查看 GitHub</a>
+        </div>
+        <div class="principles" aria-label="Core constraints">
+          <span>No Internet</span><span>No Pairing</span><span>Air-gap</span><span>Browser First</span>
+        </div>
+      </div>
+
+      <div class="modem" aria-label="Animated optical modem concept">
+        <div class="modem-top"><span>OPTICAL HS / CONCEPT</span><span id="frameId">FRAME 0000</span></div>
+        <div class="optic-frame">
+          <b class="fid f1"></b><b class="fid f2"></b><b class="fid f3"></b><b class="fid f4"></b>
+          <div id="grid" class="grid-visual" aria-hidden="true"></div>
+          <div class="pilot"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="signal-row">
+          <div><small>MODE</small><strong>Binary Grid</strong></div>
+          <div><small>PAYLOAD</small><strong>Adaptive</strong></div>
+          <div><small>INTEGRITY</small><strong>SHA-256</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="evidence-band" id="evidence">
+      <div class="shell evidence-grid">
+        <div><small>RAW PEAK OBSERVED</small><strong>20.15</strong><span>KB/s</span></div>
+        <div><small>VALIDATED / 30S</small><strong>10.00</strong><span>KB/s</span></div>
+        <div><small>10-MIN WALL GOODPUT</small><strong>5.58</strong><span>KB/s</span></div>
+        <div><small>V0.19 CAMERA AVAILABILITY</small><strong>100.0</strong><span>%</span></div>
+      </div>
+      <p class="shell evidence-note">這些是目前 QR/browser benchmark 證據，不是 iPhone、QR Code 或 optical communication 的硬體上限。</p>
+    </section>
+
+    <section class="section shell" id="architecture">
+      <div class="section-heading">
+        <h2>不是取代 QR，而是把 QR 變成整條光學鏈路的一部分。</h2>
+        <p>短資料仍用標準 QR；大資料才切入高速 optical payload。使用者看到的是同一個「Show → Scan → Receive」流程。</p>
+      </div>
+
+      <div class="flow">
+        <article>
+          <span class="step">01</span>
+          <h3>Standard QR</h3>
+          <p>Discovery、receiver URL、session、協定版本與小 payload。保留 QR 最強的通用入口。</p>
+        </article>
+        <div class="flow-arrow">→</div>
+        <article>
+          <span class="step">02</span>
+          <h3>Acquire + Calibrate</h3>
+          <p>鎖定 persistent locators、homography、亮度 reference 與 frame phase，不必每 frame 重做完整 QR discovery。</p>
+        </article>
+        <div class="flow-arrow">→</div>
+        <article>
+          <span class="step">03</span>
+          <h3>Optical HS</h3>
+          <p>Binary Grid 起步，之後依證據加入 adaptive density、FEC、multilevel 或 frequency-domain coding。</p>
+        </article>
+        <div class="flow-arrow">→</div>
+        <article>
+          <span class="step">04</span>
+          <h3>Verified File</h3>
+          <p>掉 frame 可恢復；只有在檔案完整重建且 SHA-256 通過後，才計入 useful goodput。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section dark-section">
+      <div class="shell split">
+        <div>
+          <h2>真正要贏的不是 Peak，<br>而是 Useful Goodput。</h2>
+          <p>如果 300 KB/s 的 raw channel 最後因為掉 frame、FEC、重試只剩 120 KB/s，它就沒有贏。Optical Link 將「完整檔案 / wall-clock / hash pass」作為產品級 KPI。</p>
+        </div>
+        <div class="formula">
+          <span>USEFUL GOODPUT</span>
+          <div><b>verified original file bytes</b><i>÷</i><b>wall-clock transfer time</b></div>
+          <small>Peak 只用於探索，不作為最終勝利條件。</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="roadmap">
+      <div class="section-heading compact">
+        <h2>Roadmap 由「研究問題」驅動。</h2>
+        <p>先修量測，再找 QR ceiling，再建立 Binary Optical Grid。每一階段只在上一個 evidence gate 通過後前進。</p>
+      </div>
+      <ol class="roadmap">
+        <li class="active"><span>NOW</span><div><b>Measurement Integrity</b><p>CV zero-window、phase accounting、TX/camera timestamps、JSON telemetry、metric tests。</p></div></li>
+        <li><span>0.21</span><div><b>Decoder Sampling Causality</b><p>12 / 18 / 24 Hz / camera-driven，以 counterbalanced order 排除 drift。</p></div></li>
+        <li><span>0.22</span><div><b>Display Timing</b><p>rAF、integer refresh holds、transition tearing 與實際 presentation jitter。</p></div></li>
+        <li><span>0.23+</span><div><b>Browser QR Ceiling</b><p>建立未來 Optical HS 必須公平擊敗的 matched baseline。</p></div></li>
+        <li><span>GRID</span><div><b>Optical Grid V0</b><p>QR bootstrap + persistent locators + binary data field + temporal pilot + FEC + hash。</p></div></li>
+        <li><span>HS</span><div><b>Adaptive High-Speed Mode</b><p>自動調整 grid、presentation rate、FEC；之後再測 multilevel / color / OFDM。</p></div></li>
+      </ol>
+    </section>
+
+    <section class="targets shell">
+      <div class="section-heading compact">
+        <h2>性能目標是 Gate，不是宣稱。</h2>
+        <p>每個數字都必須由真實檔案、完整 hash 與重複測試支撐。</p>
+      </div>
+      <div class="target-track">
+        <div><span>PROOF</span><b>50</b><small>KB/s</small><p>Binary Grid verified</p></div>
+        <div><span>COMPETE</span><b>200</b><small>KB/s</small><p>Sustained useful</p></div>
+        <div><span>FRONTIER</span><b>300</b><small>KB/s</small><p>Matched QR challenge</p></div>
+        <div><span>STRETCH</span><b>500</b><small>KB/s</small><p>Evidence permitting</p></div>
+        <div><span>MOONSHOT</span><b>1</b><small>MB/s</small><p>Not promised</p></div>
+      </div>
+    </section>
+
+    <section class="section shell risks">
+      <div class="section-heading compact">
+        <h2>我們預期它會在哪裡失敗。</h2>
+        <p>高速 optical link 的難點不是「畫更多格子」，而是把 display timing、camera exposure、rolling shutter、decoder compute 與 FEC 分開量測。</p>
+      </div>
+      <div class="risk-list">
+        <div><b>Timing</b><p>Timer jitter、refresh alignment、transition tearing。</p></div>
+        <div><b>Camera</b><p>Rolling shutter、auto exposure/focus、browser frame delivery。</p></div>
+        <div><b>Geometry</b><p>Perspective、ROI drift、handheld motion。</p></div>
+        <div><b>Compute</b><p>Full-frame fallback、main-thread blocking、FEC cost。</p></div>
+        <div><b>Methodology</b><p>Time drift、zero-window bias、unfair codec comparison。</p></div>
+        <div><b>Product</b><p>Cross-device variability、security assumptions、large-log handling。</p></div>
+      </div>
+    </section>
+
+    <section class="section launch-section">
+      <div class="shell launch">
+        <div>
+          <h2>先把量測做對，再開始追速度。</h2>
+          <p>目前可直接進入 V0.20.8 TX / RX benchmark。新的 Optical HS codec 仍是設計與 roadmap，不會把未完成的東西包裝成成果。</p>
+        </div>
+        <div class="launch-actions">
+          <a class="button primary light" href="/bench.html#tx">TX Benchmark</a>
+          <a class="button secondary dark" href="/bench.html#rx">RX Benchmark</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell footer">
+    <span>Optical Link · open research in screen-to-camera communication</span>
+    <a href="https://github.com/kodlbegiko/optical-link-bench">GitHub ↗</a>
+  </footer>
+
+  <script type="module" src="/site.js"></script>
+</body>
 </html>

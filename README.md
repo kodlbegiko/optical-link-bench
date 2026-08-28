@@ -1,129 +1,117 @@
-# Optical Link Bench
+# Optical Link
 
-A reproducible browser-based benchmark for **screen-to-camera optical data transfer using animated QR codes**.
+**A reproducible research platform for zero-network, zero-pairing, screen-to-camera data transfer.**
 
-> Status: active research / experimental. The current goal is to measure and explain the practical throughput ceiling of a Mac display → iPhone camera → browser decoder pipeline before attempting more aggressive encoding schemes.
+Optical Link started as a browser benchmark for animated QR transfer. The project is now expanding toward a broader goal:
 
-## 研究目標
+> **Keep the practical advantages of QR-based transfer — no network, no pairing, no account, air-gap compatible, screen-only sender and camera-only receiver — while building a faster optical data link for real file transfer.**
 
-這個專案從一個很直接的問題開始：
+The project intentionally keeps the existing QR benchmark as the baseline. We will not claim a new codec is better until it wins under the same device, distance, lighting, duration, integrity and repeatability conditions.
 
-**如果 MacBook 螢幕高速顯示 QR Code，iPhone 相機持續掃描，實際可以穩定傳多少資料？瓶頸到底在顯示器、相機、瀏覽器、decoder，還是 QR 本身？**
+## Current evidence
 
-研究不是只追求單次最高 KB/s，而是逐步拆解：
-
-- Burst peak：瞬間最高速度
-- Repeatability：同一設定能否重複
-- Sustained / endurance：30–600 秒是否仍能維持
-- Decoder sampling：12 / 18 / 24 Hz 與 camera-driven 的差異
-- Camera / browser drift：長時間性能是否衰退
-- Recovery：ROI reset、decoder reset、camera restart 是否有效
-- Availability：相機真正可工作的 wall-clock 比例
-- Efficiency：實際 unique payload / 理論發射 payload
-
-## 目前最重要的實測結論
-
-截至 V0.19：
-
-| 指標 | 結果 |
+| Metric | Current evidence |
 |---|---:|
-| 曾觀察到的短期 raw peak | **20.15 KB/s** |
-| V0.15.1 validated 30s | **10.00 KB/s** |
-| V0.18 validated sustained | **7.86 KB/s** @ 1000B × 8 QR/s |
-| V0.19 10-min wall goodput | **5.58 KB/s** |
+| Short raw peak observed | **20.15 KB/s** |
+| Validated 30 s QR result | **10.00 KB/s** |
+| V0.18 validated sustained | **7.86 KB/s** @ 1000 B × 8 QR/s |
+| V0.19 10-minute wall goodput | **5.58 KB/s** |
 | V0.19 efficiency | **69.8%** |
-| V0.19 availability | **100.0%** |
-| V0.19 camera hard restart | **0** |
+| V0.19 camera availability | **100.0%** |
+| V0.20.8 | decoder-sampling experiment pending clean full run |
 
-目前證據較支持：**主要瓶頸已從 camera restart / availability，轉向 receiver 沒有解到所有已呈現的 QR frame。**
+These are browser/decoder benchmark results, **not** hardware limits of the iPhone camera, QR Code, or optical communication.
 
-V0.20 因此固定 `1000B × 8 QR/s`，只比較 decoder sampling 策略，避免再把 payload、QR rate 與 receiver sampling 混成同一個變因。
+## Program structure
 
-## Current benchmark design — V0.20.8
+Optical Link is organized into three tracks:
 
-One-shot sequence:
+1. **Optical Link Bench** — measurement integrity, reproducible experiments, raw telemetry, statistical comparison.
+2. **Optical Link QR** — practical browser-first file transfer using standard QR as baseline/bootstrap.
+3. **Optical Link HS** — a high-speed optical modem using persistent locators, a custom payload field, temporal synchronization, FEC and adaptive rate control.
 
-1. 10 s link start
-2. 60 s warm-up
-3. 12 Hz decoder sampling × 90 s
-4. 18 Hz × 90 s
-5. 24 Hz × 90 s
-6. Camera-driven decoder × 90 s
-7. Camera-driven endurance × 300 s
-
-The transmitter remains fixed at:
+The intended product architecture is hybrid:
 
 ```text
-Payload: 1000 B / QR
-TX rate: 8 QR/s
-Theoretical payload rate: 8.00 KB/s
+Small payload / discovery              Large payload
+          │                                  │
+          ▼                                  ▼
+    Standard QR                        Optical Link HS
+          │                                  │
+          └──────── same UX / protocol ──────┘
 ```
 
-V0.20.8 also bundles QR encoding and decoding libraries locally to remove CDN availability as an experimental variable.
+QR is not discarded. It remains the universal bootstrap and small-payload mode. High-speed optical coding is used only where it has a measurable advantage.
 
-## Repository structure
+## Core product constraints
+
+A successful high-speed mode should preserve:
+
+- no Internet requirement
+- no Wi-Fi/Bluetooth pairing
+- no account
+- no cloud upload
+- air-gap compatible one-way transfer
+- sender only needs an ordinary display
+- receiver only needs an ordinary camera
+- arbitrary file transfer
+- integrity verification
+- browser-first operation where practical
+- open, reproducible benchmark results
+
+## Performance targets
+
+Targets are gates, not claims:
+
+| Stage | Target |
+|---|---|
+| Measurement baseline | trustworthy QR benchmark with raw telemetry |
+| Optical Grid proof | **≥50 KB/s useful goodput** |
+| Competitive optical mode | **≥200 KB/s sustained** |
+| QR-frontier target | **≥300 KB/s sustained useful goodput** |
+| Stretch | **≥500 KB/s** |
+| Moonshot | **1 MB/s useful goodput** if hardware/browser evidence supports it |
+
+A target only counts when a real file is reconstructed and its cryptographic hash passes. Peak screenshots do not count.
+
+## Repository map
 
 ```text
 .
-├── README.md
-├── index.html                 # clean reproducible web entry
-├── src/app.js                 # current clean benchmark source
-├── package.json
+├── index.html                    # Optical Link project / research website
+├── bench.html                    # current V0.20.8 benchmark UI
+├── src/app.js                    # current benchmark implementation
+├── site.css / site.js            # project website
 ├── docs/
-│   ├── RESEARCH_LOG.md        # version-by-version development history
-│   ├── BENCHMARK_RESULTS.md   # quantitative results
-│   ├── FINDINGS.md            # supported conclusions vs hypotheses
-│   ├── ARCHITECTURE.md        # TX/RX/protocol/metrics
-│   ├── TEST_METHODOLOGY.md    # validity and benchmark methodology
-│   ├── INCIDENTS.md           # failures and engineering lessons
-│   └── ROADMAP.md
-├── data/
-│   └── benchmark-summary.csv
-└── archive/
-    ├── v0.8/
-    ├── v0.8.2/
-    ├── v0.14.0/
-    ├── v0.20.1/
-    └── v0.20.3/
+│   ├── OPTICAL_LINK_VISION.md    # product thesis and system architecture
+│   ├── OPTICAL_HS_PROTOCOL.md    # proposed high-speed protocol
+│   ├── ROADMAP_V2.md             # staged engineering/research roadmap
+│   ├── RISK_REGISTER.md          # failure modes, detection and mitigations
+│   ├── BENCHMARK_RESULTS.md      # historical quantitative evidence
+│   ├── FINDINGS.md               # supported findings vs hypotheses
+│   ├── TEST_METHODOLOGY.md       # benchmark validity rules
+│   └── PRODUCTION.md             # deployed endpoints
+├── data/benchmark-summary.csv
+└── archive/                      # preserved historical benchmark snapshots
 ```
 
-## Why this repository exists
+## Read first
 
-Earlier versions repeatedly produced attractive peak numbers that did not survive controls, repetition, or long-duration tests. This repo intentionally preserves those failures instead of deleting them. The objective is to distinguish:
+- [`docs/OPTICAL_LINK_VISION.md`](docs/OPTICAL_LINK_VISION.md)
+- [`docs/OPTICAL_HS_PROTOCOL.md`](docs/OPTICAL_HS_PROTOCOL.md)
+- [`docs/ROADMAP_V2.md`](docs/ROADMAP_V2.md)
+- [`docs/RISK_REGISTER.md`](docs/RISK_REGISTER.md)
+- [`docs/TEST_METHODOLOGY.md`](docs/TEST_METHODOLOGY.md)
+- [`docs/BENCHMARK_RESULTS.md`](docs/BENCHMARK_RESULTS.md)
 
-- **raw peak** from **repeatable peak**
-- **active goodput** from **wall goodput**
-- a parameter win from a **time/drift artifact**
-- a browser limitation from an optical/QR limitation
+## Research policy
 
-See [`docs/FINDINGS.md`](docs/FINDINGS.md) and [`docs/BENCHMARK_RESULTS.md`](docs/BENCHMARK_RESULTS.md) before interpreting any headline throughput number.
-
-## Test platform
-
-Primary physical test path used during this research:
-
-```text
-MacBook display
-   ↓ animated QR
-rear camera
-   ↓
-iPhone browser camera pipeline
-   ↓
-ROI / full-frame capture
-   ↓
-jsQR decoder
-   ↓
-unique-frame accounting + benchmark report
-```
-
-The project is browser-first on purpose. Results should **not** be interpreted as the hardware limit of the iPhone camera or the theoretical limit of optical data transfer.
-
-## Current status
-
-- V0.8–V0.19 experimental evidence has been consolidated into this repository.
-- V0.20.8 is the current decoder-sampling benchmark design.
-- A clean source representation is kept in `src/`; historical snapshots are kept in `archive/`.
-- V0.20.8 benchmark results are still pending a clean full run after resolving page-load/CDN/cache issues.
+1. Change one causal variable at a time when diagnosing a bottleneck.
+2. Preserve failures and invalidated peaks.
+3. Separate raw peak, repeatable, sustained, endurance and useful-file goodput.
+4. Record actual timing instead of trusting requested timer rates.
+5. Compare codecs under matched physical conditions.
+6. Do not call a result “faster” unless integrity, duration and repeatability gates also pass.
 
 ## License
 
