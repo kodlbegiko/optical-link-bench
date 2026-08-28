@@ -1,15 +1,21 @@
-# Current Production Site
+# Current Production Sites
 
-Production project: **Optical Link**.
+The project now uses **two production surfaces** so the research/vision website can evolve without destabilizing the benchmark harness.
 
-## Intended endpoints
+## 1. Optical Link project website
 
-- Project / research home: `https://optical-link-bench.vercel.app/`
-- Current benchmark TX: `https://optical-link-bench.vercel.app/bench.html#tx`
-- Current benchmark RX: `https://optical-link-bench.vercel.app/bench.html#rx`
-- Compatibility alias: `https://optical-link-bench.vercel.app/v0208.html`
+- Home: `https://optical-link.vercel.app/`
+- Vercel project: `optical-link`
+- Purpose: product thesis, architecture, evidence, roadmap, Optical HS proposal and risk model.
 
-## Current benchmark generation
+The project site links back to the preserved benchmark rather than bundling a second copy of the benchmark runtime.
+
+## 2. Optical Link Bench
+
+- Current benchmark base: `https://optical-link-bench.vercel.app/v0208.html`
+- TX: `https://optical-link-bench.vercel.app/v0208.html#tx`
+- RX: `https://optical-link-bench.vercel.app/v0208.html#rx`
+- Vercel project: `optical-link-bench`
 
 The preserved benchmark generation is **V0.20.8**.
 
@@ -22,19 +28,21 @@ It retains:
 - bundled same-origin `qrcode` + `jsQR` dependencies;
 - compact TX/RX UI.
 
-`src/app.js` remains the readable benchmark source.
+`src/app.js` remains the readable benchmark source in this repository.
 
-## New project site
+## What the new site represents
 
-The root route is now intended to explain the broader Optical Link program:
+The website explains the broader Optical Link research program:
 
-- why QR remains the bootstrap/baseline;
-- proposed Optical HS binary-grid architecture;
-- useful-goodput success criteria;
-- staged roadmap;
-- explicit risks and non-claims.
+- QR remains the universal bootstrap and matched baseline;
+- Optical HS is a proposed high-speed payload mode, beginning with a persistent-locator binary grid;
+- useful-file goodput, integrity and repeatability are the success criteria;
+- 50 / 200 / 300 / 500 KB/s and 1 MB/s are **research gates/targets, not achieved results**;
+- known failure modes and non-claims are explicit.
 
-The website does **not** present Optical HS targets as achieved results.
+## Deployment verification — 2026-08-28
+
+The `optical-link` production deployment reached `READY` and the canonical alias `https://optical-link.vercel.app/` returned HTTP 200. The stylesheet endpoint was also fetched successfully.
 
 ## Next evidence-producing step
 
