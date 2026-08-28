@@ -1,0 +1,12 @@
+version,focus,headline_goodput_kB_s,operating_point,efficiency_pct,duration_s,validation,notes
+V0.10,extreme search,8.50,500B H3 20/s,85.0,,stable-row,control drift 3.60 to 1.60 KB/s
+V0.11,repeatable peak,13.77,700B H3 20/s,98.3,,repeatable,CV 4.6%; range 12.83-14.00
+V0.12,local peak,13.39,900B 18/s,81.1,,repeatable,CV 18.6%; strong drift
+V0.13,drift normalized,8.32,900B 19/s,,,not-validated,raw peak 9.83
+V0.14,paired benchmark,7.42,850B 17/s,,,not-validated,anchor baseline 7.39; best ratio 1.385x
+V0.15.1,full auto,10.00,850B 14/s,84.0,30,validated,raw broad peak 20.15
+V0.16,exhaustive,5.49,1200B 20/s,22.9,45,not-validated,health drift 59.5%
+V0.17,convergent,9.60,1200B 20/s,40.0,,burst-only,no 30s/90s pass
+V0.18,stability A/B,7.86,1000B 8/s,99.0,,validated-sustained,maintenance A/B 0.77x
+V0.19,10-min continuous,5.58,1000B 8/s,69.8,600,failed-strict,availability 100%; L3 restart 0
+V0.20.8,decoder sampling,,,,,pending,12/18/24Hz vs camera-driven
